@@ -1,0 +1,55 @@
+{
+	"name": "simple_transformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronzeSourceDataset",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "selectFewColumns"
+				},
+				{
+					"name": "FilterRows"
+				},
+				{
+					"name": "sort"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Rank as short,",
+				"          TeamCountry as string,",
+				"          Gold as short,",
+				"          Silver as short,",
+				"          Bronze as short,",
+				"          Total as short,",
+				"          {Rank by Total} as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 select(mapColumn(",
+				"          Rank,",
+				"          TeamCountry,",
+				"          Gold,",
+				"          Silver,",
+				"          Bronze,",
+				"          Total",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectFewColumns",
+				"selectFewColumns filter(Total>=10) ~> FilterRows",
+				"FilterRows sort(desc(Total, true)) ~> sort"
+			]
+		}
+	}
+}
