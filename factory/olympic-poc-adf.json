@@ -1,0 +1,9 @@
+{
+	"name": "olympic-poc-adf",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b50c2a05-945e-4d1c-9f68-d4abe904f755",
+		"tenantId": "64759943-4bca-4493-b583-16182aaf404d"
+	}
+}
